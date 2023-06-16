@@ -1,25 +1,30 @@
+#import mysql lalu mysql connector
 import mysql.connector
 import neattext.functions as nfx
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
-import firebase_admin
-from firebase_admin import credentials, auth
 import MySQLdb
 import pyrebase
-from flask_mysqldb import MySQL
+# from flask_mysqldb import MySQL
 import re, hashlib
-
+import os
 
 app = Flask(__name__)
 app.secret_key = 'lnglnglngadalahkuncirahasia'
 
+import os
+# import library lainnya
+
+# Kode lainnya
+
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="test"
+    host=os.environ['MYSQL_HOST'],
+    user=os.environ['MYSQL_USER'],
+    password=os.environ['MYSQL_PASSWORD'],
+    database=os.environ['MYSQL_DATABASE']
 )
+
 
 def cleaning_text(text):
     text = nfx.remove_stopwords(text)
@@ -290,6 +295,5 @@ def edit_profile():
     
     return redirect(url_for('login'))
 
-
-if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=9010)
+if __name__ == '__main__':
+    app.run(debug=True, host="0.0.0.0", port=8080)
